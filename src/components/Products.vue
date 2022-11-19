@@ -18,6 +18,7 @@
                         <div>
                             <h5 class="mb-0">{{ product.product_name }}</h5>
                             <p class="mb-0 opacity-75">{{ product.product_description }}</p>
+                            <small class="opacity-50 text-nowrap">{{product.posts_approved.length}} Post{{product.posts_approved.length > 1 ? 's':''}}</small>
                         </div>
                         <small class="opacity-50 text-nowrap">{{ product.created_at }}</small>
                     </div>
