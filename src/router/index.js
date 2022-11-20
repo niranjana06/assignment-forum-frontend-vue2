@@ -44,7 +44,7 @@ const routes = [
         name: 'login',
         component: Login,
         meta: {
-            title: `Login Title`
+            title: `Login`
         }
     },
     {
@@ -67,7 +67,7 @@ const routes = [
                 meta: {
                     requireAuth: true,
                     isAdmin: true,
-                    title: `Pending posts - title`
+                    title: `Pending Posts`
                 }
             }
         ]

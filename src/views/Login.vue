@@ -6,17 +6,19 @@
                 <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
                 <div class="form-floating">
-                    <input type="email" v-model="form.email" class="form-control" id="floatingInput"
+                    <input type="email" v-model="form.email" class="form-control" id="floatingInput" :disabled="processing"
                            placeholder="name@example.com" required>
                     <label for="floatingInput">Email address</label>
                 </div>
                 <div class="form-floating">
-                    <input type="password" v-model="form.password" class="form-control" id="floatingPassword"
+                    <input type="password" v-model="form.password" class="form-control" id="floatingPassword" :disabled="processing"
                            placeholder="Password" required>
                     <label for="floatingPassword">Password</label>
                 </div>
 
-                <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+                <button class="w-100 btn btn-lg btn-primary" type="submit" :disabled="processing">
+                    {{processing ? 'Please wait' : 'Sign In'}}
+                </button>
                 <p class="mt-5 mb-3 text-muted">© 2022</p>
             </form>
         </main>
@@ -37,7 +39,8 @@ export default {
             form: {
                 email: '',
                 password: '',
-            }
+            },
+            processing: false
         }
     },
 
@@ -47,9 +50,18 @@ export default {
         }),
 
         async submit() {
-            await this.signIn(this.form)
 
-            this.$router.replace({name: 'home'})
+            let self = this
+            self.processing = true
+            await this.signIn(this.form).then((res) => {
+                self.processing = false
+                this.$router.replace({name: 'home'})
+            }).catch((error) => {
+
+                self.processing = false
+                this.$toasted.show(error.response.data.error.message)
+            })
+
         }
     }
 
